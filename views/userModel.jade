@@ -1,0 +1,83 @@
+//
+    // MIT License
+    //
+    // Copyright (c) [2016] [Tommy Shrove]
+    // Twitter: @tshrove
+    //
+    // Permission is hereby granted, free of charge, to any person obtaining a copy
+    // of this software and associated documentation files (the "Software"), to deal
+    // in the Software without restriction, including without limitation the rights
+    // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    // copies of the Software, and to permit persons to whom the Software is
+    // furnished to do so, subject to the following conditions:
+    //
+    //     The above copyright notice and this permission notice shall be included in all
+    // copies or substantial portions of the Software.
+    //
+    //     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    //     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    //     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    // SOFTWARE.
+form(id="userData")
+    input(type="hidden" name="id" value="#{user.id}")
+    input(type="hidden" id="role" name="role" value="#{user.role}")
+    .row
+        h3 Edit User
+    .row
+        div(class="input-field col s6")
+            input(value="#{user.firstName}" id="firstName" type="text" class="validate" name="firstName")
+            label(class="active" for="firstName") First Name
+        div(class="input-field col s6")
+            input(value="#{user.lastName}" id="lastName" type="text" class="validate" name="lastName")
+            label(class="active" for="lastName") Last Name
+    .row
+        div(class="input-field col s12")
+            input(id="email" type="email" placeholder="Email" class="validate" name="email" value="#{user.email}")
+            label(class="active" for="email") Email
+    .row
+        div(class="input-field col s6")
+            span User Role
+            select(class="browser-default" id="roleSelect")
+                each val in ["None", "User", "Admin"]
+                    if (user.role === val)
+                        option(value="#{val}" selected) #{val}
+                    else
+                        option(value="#{val}") #{val}
+    .row
+        div(class="input-field col s6")
+            button(id="submissionBtn" class="btn waves-effect waves-light" type="button" name="submissionBtn") Update User
+        div(class="input-field col s6 green-text accent-2" id="message")
+script.
+    $(document).ready(function () {
+        $('#roleSelect').change(function() {
+            var val = $(this).val();
+            $('#role').val(val);
+        });
+
+        $('#orgSelect').change(function () {
+            var val = $(this).val();
+            $('#org').val(val);
+        });
+
+        $('#submissionBtn').click(function() {
+            // put the spin wait in the div.
+            $('#message').html('<div class="progress"><div class="indeterminate"></div></div>');
+
+            $.ajax({
+                type: "POST",
+                url: '/users/updateUser',
+                contentType: 'application/x-www-form-urlencoded',
+                data: $("#userData").serialize(), // serializes the form's elements.
+                success: function (data) {
+                    if (data.err) {
+                        $('#message').html(data.error);
+                    } else {
+                        $('#message').html(data.message);
+                    }
+                }
+            });
+        });
+    });
