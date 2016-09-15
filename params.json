@@ -1,0 +1,6 @@
+{
+  "name": "Simplewebapp",
+  "tagline": "This is a simple web app starter project with authentication, users, roles, and role management using NodeJS, Jade, and MongoDb",
+  "body": "### About SimpleWebApp\r\nDeveloped by @tshrove to help developers with starting a simple web application using NodeJS, Jade, and MongoDB.\r\nIt contains:\r\n* User Management\r\n* User Roles\r\n* Authentication\r\n* Register and Login Page\r\n* Admin Page\r\n* Starter Homepage\r\n\r\n### Support or Contact\r\nPlease contact me on twitter: @tshrove or by email at tshrove+github@gmail.com\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
